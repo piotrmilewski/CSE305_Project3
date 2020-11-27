@@ -1,5 +1,9 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +24,36 @@ public class EmployeeDao {
 		 * The sample code returns "success" by default.
 		 * You need to handle the database insertion of the employee details and return "success" or "failure" based on result of the database insertion.
 		 */
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			int result1 = st.executeUpdate("INSERT INTO Person VALUES(" + 
+					employee.getEmployeeID() + ", '" + 
+					employee.getPassword() + "', '" + 
+					employee.getFirstName() + "', '" + 
+					employee.getLastName() + "', '" + 
+					employee.getAddress() + "', '" + 
+					employee.getCity() + "', '" + 
+					employee.getState() + "', " + 
+					employee.getZipCode() + ", '" + 
+					employee.getEmail() + "', " + 
+					employee.getTelephone() + ");");
+			if (result1 != 1)
+				return "failure";
+			int result2 = st.executeUpdate("INSERT INTO Employee VALUES(" + 
+					employee.getEmployeeID() + ", '" + 
+					employee.getEmployeeRole() + "', '" + 
+					employee.getStartDate() + "', " + 
+					employee.getHourlyRate() + ");");
+			if (result2 != 1) {
+				st.executeUpdate("DELETE FROM Person WHERE SSN=" + employee.getEmployeeID() + ";");
+				return "failure";
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		
 		/*Sample data begins*/
 		return "success";

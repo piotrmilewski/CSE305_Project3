@@ -7,6 +7,6 @@ import java.util.List;
 
 public class PersonDao {
 
-//	Write functions in order to utilise the Person model
+//	Write functions in order to utilize the Person model
 
 }
