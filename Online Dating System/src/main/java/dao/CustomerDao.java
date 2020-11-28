@@ -182,7 +182,7 @@ public class CustomerDao {
 
 
 
-	public List<Customer>  getMostActiveUser(){
+	public List<Customer> getMostActiveUser(){
 		List<Customer> customers = new ArrayList<Customer>();
 
 		try {
@@ -233,6 +233,7 @@ public class CustomerDao {
 		for (int i = 0; i < 10; i++) {
 			Customer customer = new Customer();
 			customer.setUserID("111-11-1111");
+			customer.setUserSSN("111-11-1111");
 			customer.setAddress("123 Success Street");
 			customer.setLastName("Lu");
 			customer.setFirstName("Upendra Nath Chaurasia");
@@ -306,6 +307,65 @@ public class CustomerDao {
 
 		return customers;
 	}
+	
+	public List<String> getMaxRevenueCustomer() {
+		
+		List<String> customers = new ArrayList<String>();
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT FirstName, LastName, SUM(BookingFee) as TotalRevenue" + 
+					" FROM (SELECT D1.Profile1 as Profile, D1.BookingFee" + 
+					"     FROM Date D1" + 
+					"     UNION" + 
+					"     SELECT D2.Profile2 as Profile, D2.BookingFee" + 
+					"     FROM Date D2) d" + 
+					" INNER JOIN Profile p1 ON p1.ProfileID = d.Profile" + 
+					" INNER JOIN Person p2 ON p1.OwnerSSN = p2.SSN" + 
+					" GROUP BY OwnerSSN" + 
+					" ORDER BY SUM(BookingFee) DESC" + 
+					" LIMIT 1;");
+			if (rs.first() == false)
+				return customers;
 
+			customers.add(rs.getString("FirstName") + " " + rs.getString("LastName"));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return customers;
+	}
+	
+	public String getMaxRevenueAmount() {
+		
+		String amount = "";
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT FirstName, LastName, SUM(BookingFee) as TotalRevenue" + 
+					" FROM (SELECT D1.Profile1 as Profile, D1.BookingFee" + 
+					"     FROM Date D1" + 
+					"     UNION" + 
+					"     SELECT D2.Profile2 as Profile, D2.BookingFee" + 
+					"     FROM Date D2) d" + 
+					" INNER JOIN Profile p1 ON p1.ProfileID = d.Profile" + 
+					" INNER JOIN Person p2 ON p1.OwnerSSN = p2.SSN" + 
+					" GROUP BY OwnerSSN" + 
+					" ORDER BY SUM(BookingFee) DESC" + 
+					" LIMIT 1;");
+			if (rs.first() == false)
+				return amount;
+
+			amount = rs.getString("TotalRevenue");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return amount;
+	}
 
 }

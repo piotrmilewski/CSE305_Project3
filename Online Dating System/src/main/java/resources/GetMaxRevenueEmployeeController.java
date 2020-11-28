@@ -38,13 +38,13 @@ public class GetMaxRevenueEmployeeController extends HttpServlet {
 
         // This is just a sample. Use your own logic to get data from apt daos.
 
-        List<String> employees = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++)
-            employees.add("Virat Kohli");
+    	EmployeeDao employeeDao = new EmployeeDao();
+        List<String> employees = new ArrayList<String>();
+        employees = employeeDao.getMaxRevenueEmployee();
+        String amount = employeeDao.getMaxRevenueAmount();
 
         request.setAttribute("employees", employees);
-        request.setAttribute("revenue", "3000");
+        request.setAttribute("revenue", amount);
 
         RequestDispatcher rd = request.getRequestDispatcher("showMaxRevenueByEmployee.jsp");
         rd.forward(request, response);

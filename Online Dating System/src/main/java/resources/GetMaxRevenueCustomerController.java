@@ -2,6 +2,7 @@ package resources;
 
 import dao.CustomerDao;
 import dao.DateDao;
+import dao.EmployeeDao;
 import dao.ProfileDao;
 import model.Customer;
 import model.Date;
@@ -43,13 +44,13 @@ public class GetMaxRevenueCustomerController extends HttpServlet {
 
         // This is just a sample. Use your own logic to get data from apt daos.
 
-        List<String> customers = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++)
-            customers.add("Hardik Pandya");
+    	CustomerDao customerDao = new CustomerDao();
+        List<String> customers = new ArrayList<String>();
+        customers = customerDao.getMaxRevenueCustomer();
+        String amount = customerDao.getMaxRevenueAmount();
 
         request.setAttribute("customers", customers);
-        request.setAttribute("revenue", "2000");
+        request.setAttribute("revenue", amount);
 
         RequestDispatcher rd = request.getRequestDispatcher("showMaxRevenueByCustomer.jsp");
         rd.forward(request, response);

@@ -67,7 +67,6 @@ public class EmployeeDao {
 		 * You need to handle the database update and return "success" or "failure" based on result of the database update.
 		 */
 		
-		System.out.println(employee.getFirstName() + " " + employee.getEmployeeRole());
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
@@ -137,7 +136,6 @@ public class EmployeeDao {
 				employee.setEmail(rs.getString("Email"));
 				employee.setFirstName(rs.getString("FirstName"));
 				employee.setLastName(rs.getString("LastName"));
-				System.out.println(rs.getString("Role"));
 				employee.setEmployeeRole(rs.getString("Role"));
 				employee.setAddress(rs.getString("Street"));
 				employee.setCity(rs.getString("City"));
@@ -195,6 +193,56 @@ public class EmployeeDao {
 		}
 		
 		return employee;
+	}
+	
+	public List<String> getMaxRevenueEmployee() {
+		
+		List<String> employees = new ArrayList<String>();
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT FirstName, LastName, SUM(BookingFee) as TotalRevenue" + 
+					" FROM Date d" + 
+					" INNER JOIN Person p ON p.SSN = d.CustRep" + 
+					" GROUP BY CustRep" + 
+					" ORDER BY SUM(BookingFee) DESC" + 
+					" LIMIT 1;");
+			if (rs.first() == false)
+				return employees;
+
+			employees.add(rs.getString("FirstName") + " " + rs.getString("LastName"));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return employees;
+	}
+	
+	public String getMaxRevenueAmount() {
+		
+		String amount = "";
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT FirstName, LastName, SUM(BookingFee) as TotalRevenue" + 
+					" FROM Date d" + 
+					" INNER JOIN Person p ON p.SSN = d.CustRep" + 
+					" GROUP BY CustRep" + 
+					" ORDER BY SUM(BookingFee) DESC" + 
+					" LIMIT 1;");
+			if (rs.first() == false)
+				return amount;
+
+			amount = rs.getString("TotalRevenue");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return amount;
 	}
 	
 	public String getEmployeeID(String username) {
