@@ -67,6 +67,7 @@ public class EmployeeDao {
 		 * You need to handle the database update and return "success" or "failure" based on result of the database update.
 		 */
 		
+		System.out.println(employee.getFirstName() + " " + employee.getEmployeeRole());
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
@@ -136,6 +137,7 @@ public class EmployeeDao {
 				employee.setEmail(rs.getString("Email"));
 				employee.setFirstName(rs.getString("FirstName"));
 				employee.setLastName(rs.getString("LastName"));
+				System.out.println(rs.getString("Role"));
 				employee.setEmployeeRole(rs.getString("Role"));
 				employee.setAddress(rs.getString("Street"));
 				employee.setCity(rs.getString("City"));

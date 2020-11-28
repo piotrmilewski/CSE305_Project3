@@ -50,6 +50,7 @@ public class UpdateEmployeeController extends HttpServlet {
 		String ssn = request.getParameter("employeeSSN");
 		String startDate = request.getParameter("employeeStartDate");
 		float hourlyRate = Float.parseFloat(request.getParameter("employeeHourlyRate"));
+		String employeeRole = request.getParameter("employeeRole");
 		
 		Employee employee = new Employee();
 		employee.setEmail(email);
@@ -63,6 +64,7 @@ public class UpdateEmployeeController extends HttpServlet {
 		employee.setTelephone(telephone);
 		employee.setEmployeeID(ssn);
 		employee.setHourlyRate(hourlyRate);
+		employee.setEmployeeRole(employeeRole);
 		
 		EmployeeDao employeeDao = new EmployeeDao();
 		String result = employeeDao.editEmployee(employee);
