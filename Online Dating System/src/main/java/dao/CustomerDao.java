@@ -185,21 +185,42 @@ public class CustomerDao {
 	public List<Customer>  getMostActiveUser(){
 		List<Customer> customers = new ArrayList<Customer>();
 
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setUserID("111-11-1111");
-			customer.setUserSSN("112-11-1111");
-			customer.setAddress("123 Success Street");
-			customer.setLastName("Lu");
-			customer.setFirstName("Upendra Nath Chaurasia");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setEmail("uppu_chaur@cs.sunysb.edu");
-			customer.setZipCode(11790);
-			customers.add(customer);
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			int result1 = st.executeUpdate("DROP TABLE IF EXISTS temp;");
+			int result2 = st.executeUpdate("CREATE TABLE temp AS" + 
+					" SELECT FirstName, LastName, SSN, COUNT(Profile) AS NumberOfDates" + 
+					" FROM (SELECT D1.Profile1 as Profile, Date_Time" + 
+					"       FROM Date D1" + 
+					"       UNION" + 
+					"       SELECT D2.Profile2 as Profile, Date_Time" + 
+					"       FROM Date D2) d" + 
+					" INNER JOIN Profile p1 ON p1.ProfileID = d.Profile" + 
+					" INNER JOIN Person p2 ON p1.OwnerSSN = p2.SSN" + 
+					" GROUP BY SSN;");
+			ResultSet rs = st.executeQuery("SELECT a.FirstName, a.LastName, a.SSN" + 
+					" FROM temp a" + 
+					" WHERE a.NumberOfDates = (SELECT MAX(b.NumberOfDates)" + 
+					"                          FROM temp b);");
+			while (rs.next()) {
+				Customer customer = new Customer();
+				customer.setUserID(rs.getString("SSN"));
+				customer.setUserSSN(rs.getString("SSN"));
+				customer.setAddress("null");
+				customer.setLastName(rs.getString("LastName"));
+				customer.setFirstName(rs.getString("FirstName"));
+				customer.setCity("null");
+				customer.setState("null");
+				customer.setEmail("null@null.com");
+				customer.setZipCode(11111);
+				customers.add(customer);
+			}
+			int result3 = st.executeUpdate("DROP TABLE temp;");
+		} catch (Exception e) {
+			System.out.println(e);
 		}
-		/*Sample data ends*/
 
 		return customers;
 	}

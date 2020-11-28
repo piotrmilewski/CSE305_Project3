@@ -29,8 +29,8 @@ public class EmployeeDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
 			Statement st = con.createStatement();
-			int result1 = st.executeUpdate("INSERT INTO Person VALUES(" + 
-					employee.getEmployeeID() + ", '" + 
+			int result1 = st.executeUpdate("INSERT INTO Person VALUES('" + 
+					employee.getEmployeeID() + "', '" + 
 					employee.getPassword() + "', '" + 
 					employee.getFirstName() + "', '" + 
 					employee.getLastName() + "', '" + 
@@ -38,12 +38,12 @@ public class EmployeeDao {
 					employee.getCity() + "', '" + 
 					employee.getState() + "', " + 
 					employee.getZipCode() + ", '" + 
-					employee.getEmail() + "', " + 
-					employee.getTelephone() + ");");
+					employee.getEmail() + "', '" + 
+					employee.getTelephone() + "');");
 			if (result1 != 1)
 				return "failure";
-			int result2 = st.executeUpdate("INSERT INTO Employee VALUES(" + 
-					employee.getEmployeeID() + ", '" + 
+			int result2 = st.executeUpdate("INSERT INTO Employee VALUES('" + 
+					employee.getEmployeeID() + "', '" + 
 					employee.getEmployeeRole() + "', '" + 
 					employee.getStartDate() + "', " + 
 					employee.getHourlyRate() + ");");
