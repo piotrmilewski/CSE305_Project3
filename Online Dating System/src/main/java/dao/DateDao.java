@@ -166,7 +166,8 @@ public class DateDao {
 					" FROM Date" + 
 					" WHERE month(Date_Time) = " + month + " AND year(Date_Time) = " + year + 
 					" GROUP BY month(Date_Time), year(Date_Time);");
-			rs.first();
+			if (rs.first() == false)
+				return retVal;
 			int val = (int)Math.round(rs.getDouble("Revenue"));
 			retVal = Integer.toString(val);
     	} catch (Exception e) {
