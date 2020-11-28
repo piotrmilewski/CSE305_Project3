@@ -67,10 +67,30 @@ public class EmployeeDao {
 		 * You need to handle the database update and return "success" or "failure" based on result of the database update.
 		 */
 		
-		/*Sample data begins*/
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			int result1 = st.executeUpdate("UPDATE Person" + 
+					" SET FirstName = '" + employee.getFirstName() + "'," +
+					" LastName = '" + employee.getLastName() + "'," +
+					" Street = '" + employee.getAddress() + "'," +
+					" City = '" + employee.getCity() + "'," +
+					" State = '" + employee.getState() + "'," +
+					" Zipcode = " + employee.getZipCode() + "," +
+					" Email = '" + employee.getEmail() + "'," +
+					" Telephone = '" + employee.getTelephone() + "'" +
+					" WHERE SSN = '" + employee.getEmployeeID() + "';");
+			int result2 = st.executeUpdate("UPDATE Employee" +
+					" SET Role = '" + employee.getEmployeeRole() + "'," +
+					" StartDate = '" + employee.getStartDate() + "'," +
+					" HourlyRate = " + employee.getHourlyRate() +
+					" WHERE SSN = '" + employee.getEmployeeID() + "';");
+		}  catch (Exception e) {
+			System.out.println(e);
+		}
+		
 		return "success";
-		/*Sample data ends*/
-
 	}
 
 	public String deleteEmployee(String employeeID) {
@@ -80,10 +100,17 @@ public class EmployeeDao {
 		 * You need to handle the database deletion and return "success" or "failure" based on result of the database deletion.
 		 */
 		
-		/*Sample data begins*/
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			int result1 = st.executeUpdate("DELETE FROM Employee WHERE SSN = '" + employeeID + "';");
+			int result2 = st.executeUpdate("DELETE FROM Person WHERE SSN = '" + employeeID + "';");
+		}  catch (Exception e) {
+			System.out.println(e);
+		}
+		
 		return "success";
-		/*Sample data ends*/
-
 	}
 
 	
@@ -97,24 +124,32 @@ public class EmployeeDao {
 
 		List<Employee> employees = new ArrayList<Employee>();
 		
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Employee employee = new Employee();
-			employee.setEmail("shiyong@cs.sunysb.edu");
-			employee.setFirstName("Shiyong");
-			employee.setLastName("Lu");
-			employee.setEmployeeRole("CustRep");
-			employee.setAddress("123 Success Street");
-			employee.setCity("Stony Brook");
-			employee.setStartDate("2006-10-17");
-			employee.setState("NY");
-			employee.setZipCode(11790);
-			employee.setTelephone("5166328959");
-			employee.setEmployeeID("631-413-5555");
-			employee.setHourlyRate(100);
-			employees.add(employee);
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT *" + 
+					" FROM Person P" + 
+					" INNER JOIN Employee E on E.SSN = P.SSN;");
+			while (rs.next()) {
+				Employee employee = new Employee();
+				employee.setEmail(rs.getString("Email"));
+				employee.setFirstName(rs.getString("FirstName"));
+				employee.setLastName(rs.getString("LastName"));
+				employee.setEmployeeRole(rs.getString("Role"));
+				employee.setAddress(rs.getString("Street"));
+				employee.setCity(rs.getString("City"));
+				employee.setStartDate(rs.getString("StartDate"));
+				employee.setState(rs.getString("State"));
+				employee.setZipCode(rs.getInt("Zipcode"));
+				employee.setTelephone(rs.getString("Telephone"));
+				employee.setEmployeeID(rs.getString("SSN"));
+				employee.setHourlyRate(rs.getInt("HourlyRate"));
+				employees.add(employee);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
-		/*Sample data ends*/
 		
 		return employees;
 	}
@@ -126,22 +161,36 @@ public class EmployeeDao {
 		 * employeeID, which is the Employee's ID who's details have to be fetched, is given as method parameter
 		 * The record is required to be encapsulated as a "Employee" class object
 		 */
-
-		Employee employee = new Employee();
 		
-		/*Sample data begins*/
-		employee.setEmail("shiyong@cs.sunysb.edu");
-		employee.setFirstName("Shiyong");
-		employee.setLastName("Lu");
-		employee.setAddress("123 Success Street");
-		employee.setCity("Stony Brook");
-		employee.setStartDate("2006-10-17");
-		employee.setState("NY");
-		employee.setZipCode(11790);
-		employee.setTelephone("5166328959");
-		employee.setEmployeeID("631-413-5555");
-		employee.setHourlyRate(100);
-		/*Sample data ends*/
+		Employee employee = new Employee();
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT *" + 
+					" FROM Person P" + 
+					" INNER JOIN Employee E on E.SSN = P.SSN" +
+					" WHERE P.SSN = '" + employeeID + "';");
+			
+			if (rs.first() == false)
+				return employee;
+			
+			employee.setEmail(rs.getString("Email"));
+			employee.setFirstName(rs.getString("FirstName"));
+			employee.setLastName(rs.getString("LastName"));
+			employee.setEmployeeRole(rs.getString("Role"));
+			employee.setAddress(rs.getString("Street"));
+			employee.setCity(rs.getString("City"));
+			employee.setStartDate(rs.getString("StartDate"));
+			employee.setState(rs.getString("State"));
+			employee.setZipCode(rs.getInt("Zipcode"));
+			employee.setTelephone(rs.getString("Telephone"));
+			employee.setEmployeeID(rs.getString("SSN"));
+			employee.setHourlyRate(rs.getInt("HourlyRate"));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		
 		return employee;
 	}
