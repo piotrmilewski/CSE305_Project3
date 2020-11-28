@@ -37,7 +37,7 @@ public class GetSalesReportController extends HttpServlet {
         DateDao dao = new DateDao();
 
         int income = Integer.parseInt(dao.getSalesReport(month, year));
-        List<Date> openDatesOfThisMonthYear = dao.getDatesByMonthYear("12", "2020");
+        List<Date> openDatesOfThisMonthYear = dao.getDatesByMonthYear(month, year);
 
         request.setAttribute("income", income);
         request.setAttribute("dates", openDatesOfThisMonthYear);

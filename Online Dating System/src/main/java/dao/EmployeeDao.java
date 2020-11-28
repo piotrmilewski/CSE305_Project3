@@ -55,10 +55,7 @@ public class EmployeeDao {
 			System.out.println(e);
 		}
 		
-		/*Sample data begins*/
 		return "success";
-		/*Sample data ends*/
-
 	}
 
 	public String editEmployee(Employee employee) {
