@@ -19,22 +19,30 @@ public class DateDao {
     public List<Date> getDatesByCalendar(String calendarDate) {
         List<Date> dates = new ArrayList<Date>();
 
-        /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
-        /*Sample data ends*/
+        try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT *" + 
+					" FROM Date" + 
+					" WHERE date(Date_Time) = '" + calendarDate + "';");
+			while (rs.next()) {
+				Date date = new Date();
+	            date.setDateID("1111111");
+	            date.setUser1ID(rs.getString("Profile1"));
+	            date.setUser2ID(rs.getString("Profile2"));
+	            date.setDate(rs.getString("Date_Time"));
+	            date.setGeolocation(rs.getString("Location"));
+	            date.setBookingfee(rs.getString("BookingFee"));
+	            date.setCustRepresentative(rs.getString("CustRep"));
+	            date.setComments(rs.getString("Comments"));
+	            date.setUser1Rating(rs.getString("User1Rating"));
+	            date.setUser2Rating(rs.getString("User2Rating"));
+	            dates.add(date);
+			}
+        } catch (Exception e) {
+			System.out.println(e);
+		}
 
         return dates;
     }
@@ -76,22 +84,38 @@ public class DateDao {
 
         List<Date> dates = new ArrayList<Date>();
 
-        /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
-        /*Sample data ends*/
+        String[] tokens = customerName.split(" ");
+		String firstName = tokens[0];
+		String lastName = tokens[1];
+        
+        try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT *" + 
+					" FROM Date d" + 
+					" INNER JOIN Profile p1 ON p1.ProfileID = d.Profile1" + 
+					" INNER JOIN Profile p2 ON p2.ProfileID = d.Profile2" + 
+					" INNER JOIN Person pe1 ON p1.OwnerSSN = pe1.SSN" + 
+					" INNER JOIN Person pe2 ON p2.OwnerSSN = pe2.SSN" + 
+					" WHERE pe1.FirstName = '" + firstName + "' AND pe1.LastName = '" + lastName + "' OR pe2.FirstName = '" + firstName + "' AND pe2.LastName = '" + lastName + "';");
+			while (rs.next()) {
+				Date date = new Date();
+	            date.setDateID("1111111");
+	            date.setUser1ID(rs.getString("Profile1"));
+	            date.setUser2ID(rs.getString("Profile2"));
+	            date.setDate(rs.getString("Date_Time"));
+	            date.setGeolocation(rs.getString("Location"));
+	            date.setBookingfee(rs.getString("BookingFee"));
+	            date.setCustRepresentative(rs.getString("CustRep"));
+	            date.setComments(rs.getString("Comments"));
+	            date.setUser1Rating(rs.getString("User1Rating"));
+	            date.setUser2Rating(rs.getString("User2Rating"));
+	            dates.add(date);
+			}
+        } catch (Exception e) {
+			System.out.println(e);
+		}
 
         return dates;
     }
@@ -273,22 +297,55 @@ public class DateDao {
     public List<Date> getRevenueByCalendar(String calendarDate) {
         List<Date> dates = new ArrayList<Date>();
 
-        /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
-        /*Sample data ends*/
+        try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT DATE(Date_Time) as Date, SUM(BookingFee) as Revenue" + 
+					" FROM Date" + 
+					" WHERE DATE(Date_Time) = '" + calendarDate + "'" + 
+					" GROUP BY DATE(Date_Time);");
+			while (rs.next()) {
+				Date date = new Date();
+	            date.setDateID(rs.getString("Revenue"));
+	            date.setDate(rs.getString("Date"));
+	            dates.add(date);
+			}
+        } catch (Exception e) {
+			System.out.println(e);
+		}
+
+        return dates;
+    }
+    
+    public List<Date> getRevenueByCustomer(String customerName) {
+        List<Date> dates = new ArrayList<Date>();
+
+        String[] tokens = customerName.split(" ");
+		String firstName = tokens[0];
+		String lastName = tokens[1];
+        
+        try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT '" + firstName + "' as FirstName, '" + lastName + "' as LastName, SUM(BookingFee) as Revenue" + 
+					" FROM Date d" + 
+					" INNER JOIN Profile p1 ON p1.ProfileID = d.Profile1" + 
+					" INNER JOIN Profile p2 ON p2.ProfileID = d.Profile2" + 
+					" INNER JOIN Person pe1 ON p1.OwnerSSN = pe1.SSN" + 
+					" INNER JOIN Person pe2 ON p2.OwnerSSN = pe2.SSN" + 
+					" WHERE pe1.FirstName = '" + firstName + "' AND pe1.LastName = '" + lastName + "' OR pe2.FirstName = '" + firstName + "' AND pe2.LastName = '" + lastName + "';");
+			while (rs.next()) {
+				Date date = new Date();
+	            date.setDateID(rs.getString("Revenue"));
+	            date.setUser1ID(rs.getString("LastName"));
+	            date.setUser2ID(rs.getString("FirstName"));
+	            dates.add(date);
+			}
+        } catch (Exception e) {
+			System.out.println(e);
+		}
 
         return dates;
     }

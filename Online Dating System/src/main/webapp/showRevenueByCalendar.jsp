@@ -25,25 +25,15 @@
 		<table class="table table-striped">
 		  <thead>
 		    <tr>
-		      <th>Date ID</th>
-		      <th>User1 ID</th>
-		      <th>User2 ID</th>
 		      <th>Date/Time</th>
-		      <th>Geolocation</th>
-		      <th>Booking Fee</th>
-		      <th>Customer Representative</th>
+		      <th>Revenue</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		     <c:forEach items="${dates}" var="cd">
 		       <tr>
-		         <td>${cd.dateID}</td>
-		         <td>${cd.user1ID}</td>
-		         <td>${cd.user2ID}</td>
 		         <td>${cd.date}</td>
-		         <td>${cd.geolocation}</td>
-		         <td>${cd.bookingfee}</td>
-		         <td>${cd.custRepresentative}</td>
+		         <td>${cd.dateID}</td>
 		       </tr>
 		     </c:forEach>
 		  </tbody>

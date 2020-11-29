@@ -32,34 +32,14 @@ public class GetRevenueByCustomerController extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//		String searchKeyword = request.getParameter("customer_name");
+		String searchKeyword = request.getParameter("customerName");
 
         DateDao dao = new DateDao();
-        ProfileDao pdao = new ProfileDao();
-
-        // Use these daos to get the result
-
-        List<Date> dates = new ArrayList<Date>();
-
-        /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
-        /*Sample data ends*/
+        System.out.println(searchKeyword);
+        List<Date> dates = dao.getRevenueByCustomer(searchKeyword);
 
         request.setAttribute("dates", dates);
-        request.setAttribute("customer", "cust_id");
+        request.setAttribute("customer", searchKeyword);
 
         RequestDispatcher rd = request.getRequestDispatcher("showRevenueByCustomer.jsp");
         rd.forward(request, response);

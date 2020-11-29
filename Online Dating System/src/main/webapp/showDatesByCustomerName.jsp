@@ -25,7 +25,6 @@
 		<table class="table table-striped">
 		  <thead>
 		    <tr>
-		      <th>Date ID</th>
 		      <th>User1 ID</th>
 		      <th>User2 ID</th>
 		      <th>Date/Time</th>
@@ -40,7 +39,6 @@
 		  <tbody>
 		     <c:forEach items="${dates}" var="cd">
 		       <tr>
-		         <td>${cd.dateID}</td>
 		         <td>${cd.user1ID}</td>
 		         <td>${cd.user2ID}</td>
 		         <td>${cd.date}</td>
