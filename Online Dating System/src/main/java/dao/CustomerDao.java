@@ -228,22 +228,46 @@ public class CustomerDao {
 	public List<Customer> getDatedCustomers(String primary){
 
 		List<Customer> customers = new ArrayList<Customer>();
+		
+		String[] tokens = primary.split(" ");
+		String firstName = tokens[0];
+		String lastName = tokens[1];
 
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setUserID("111-11-1111");
-			customer.setUserSSN("111-11-1111");
-			customer.setAddress("123 Success Street");
-			customer.setLastName("Lu");
-			customer.setFirstName("Upendra Nath Chaurasia");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setEmail("uppu_chaur@cs.sunysb.edu");
-			customer.setZipCode(11790);
-			customers.add(customer);
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			int result1 = st.executeUpdate("DROP TABLE IF EXISTS temp;");
+			int result2 = st.executeUpdate("CREATE TABLE temp AS" + 
+					" SELECT pe1.SSN as SSN1, pe1.FirstName as FirstName1, pe1.LastName as LastName1, pe2.SSN as SSN2, pe2.FirstName as FirstName2, pe2.LastName as LastName2" + 
+					" FROM Date d, Profile p1, Profile p2, Person pe1, Person pe2" + 
+					" WHERE d.Profile1 = p1.ProfileID AND p1.OwnerSSN = pe1.SSN AND d.Profile2 = p2.ProfileID AND p2.OwnerSSN = pe2.SSN;");
+			ResultSet rs = st.executeQuery("SELECT FirstName, LastName, SSN" + 
+					" FROM (SELECT t1.FirstName1 as FirstName, t1.LastName1 as LastName, t1.SSN1 as SSN" + 
+					"     FROM temp t1" + 
+					"     WHERE t1.FirstName2 = '" + firstName + "' AND t1.LastName2 = '" + lastName + "'" + 
+					"     UNION\r\n" + 
+					"     SELECT t2.FirstName2 as FirstName, t2.LastName2 as LastName, t2.SSN2 as SSN" + 
+					"     FROM temp t2" + 
+					"     WHERE t2.FirstName1 = '" + firstName + "' AND t2.LastName1 = '" + lastName + "') d" +
+					" ORDER BY SSN;");
+			while (rs.next()) {
+				Customer customer = new Customer();
+				customer.setUserID(rs.getString("SSN"));
+				customer.setUserSSN(rs.getString("SSN"));
+				customer.setAddress("null");
+				customer.setLastName(rs.getString("LastName"));
+				customer.setFirstName(rs.getString("FirstName"));
+				customer.setCity("null");
+				customer.setState("null");
+				customer.setEmail("null@null.com");
+				customer.setZipCode(11111);
+				customers.add(customer);
+			}
+			int result3 = st.executeUpdate("DROP TABLE temp;");
+		} catch (Exception e) {
+			System.out.println(e);
 		}
-		/*Sample data ends*/
 
 		return customers;
 	}
@@ -251,21 +275,32 @@ public class CustomerDao {
 	public List<Customer> getHighestRatedCustomer(){
 		List<Customer> customers = new ArrayList<Customer>();
 
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setUserID("111-11-1111");
-			customer.setUserSSN("112-11-1111");
-			customer.setAddress("123 Success Street");
-			customer.setLastName("Lu");
-			customer.setFirstName("Upendra Nath Chaurasia");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setEmail("uppu_chaur@cs.sunysb.edu");
-			customer.setZipCode(11790);
-			customers.add(customer);
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT FirstName, LastName, p.SSN as SSN, u.Rating as Rating" + 
+					" FROM User u" + 
+					" INNER JOIN Person p ON p.SSN = u.SSN" + 
+					" WHERE u.Rating = (SELECT MAX(u2.Rating)" + 
+					"                   FROM sys.User u2);");
+			while (rs.next()) {
+				Customer customer = new Customer();
+				customer.setUserID(rs.getString("SSN"));
+				customer.setUserSSN(rs.getString("SSN"));
+				customer.setAddress("null");
+				customer.setLastName(rs.getString("LastName"));
+				customer.setFirstName(rs.getString("FirstName"));
+				customer.setCity("null");
+				customer.setState("null");
+				customer.setEmail("null@null.com");
+				customer.setZipCode(11111);
+				customer.setRating(rs.getInt("Rating"));
+				customers.add(customer);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
-		/*Sample data ends*/
 
 		return customers;
 	}

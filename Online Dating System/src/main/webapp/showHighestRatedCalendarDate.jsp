@@ -18,7 +18,7 @@
 </head>
 <body>
 <div>
-	<h1>The Dates based on Calendar Date <c:out value = "${date}"/> are:</h1>
+	<h1>The Highest Rated Calendar Dates <c:out value = "${date}"/> are:</h1>
 	<c:if test="${empty dates}">
 	<h3> Dates not found! <h3/>
 		</c:if>
@@ -26,7 +26,6 @@
 		<table class="table table-striped">
 			<thead>
 			<tr>
-				<th>Date ID</th>
 				<th>Date/Time</th>
 				<th>Rating</th>
 			</tr>
@@ -34,7 +33,6 @@
 			<tbody>
 			<c:forEach items="${dates}" var="cd">
 				<tr>
-					<td>${cd.dateID}</td>
 					<td>${cd.date}</td>
 					<%-- Show over all rating (important)--%>
 					<td>${cd.user2Rating}</td>

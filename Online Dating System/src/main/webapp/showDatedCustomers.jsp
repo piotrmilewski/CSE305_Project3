@@ -26,14 +26,16 @@
 		  <thead>
 		    <tr>
 				<th>Customer ID</th>
-				<th>SSN</th>
+				<th>First Name</th>
+				<th>Last Name</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		     <c:forEach items="${customers}" var="cd">
 		       <tr>
 				   <td>${cd.userID}</td>
-				   <td>${cd.userSSN}</td>
+				   <td>${cd.firstName}</td>
+				   <td>${cd.lastName}</td>
 		       </tr>
 		     </c:forEach>
 		  </tbody>

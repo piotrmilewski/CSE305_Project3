@@ -97,24 +97,40 @@ public class DateDao {
     }
 
     public List<Date> getHighestRatedCalendarDate() {
+    	
         List<Date> dates = new ArrayList<Date>();
 
-        /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
-        /*Sample data ends*/
+        try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			int result1 = st.executeUpdate("DROP TABLE IF EXISTS temp;");
+			int result2 = st.executeUpdate("CREATE TABLE temp AS" + 
+					" SELECT Date, totalAVG" + 
+					" FROM (SELECT DATE(Date_Time) AS Date, (AVG(User1Rating)+AVG(User2Rating))/2 AS totalAVG" + 
+					"       FROM Date" + 
+					"       GROUP BY DATE(Date_Time)) d;");
+			ResultSet rs = st.executeQuery("SELECT a.Date, a.totalAvg" + 
+					" FROM temp a" + 
+					" WHERE a.totalAvg = (SELECT MAX(b.totalAvg)" + 
+					" 				     FROM temp b);");
+			while (rs.next()) {
+				Date date = new Date();
+	            date.setDateID("12313123");
+	            date.setUser1ID("1212");
+	            date.setUser2ID("2121");
+	            date.setDate(rs.getString("Date"));
+	            date.setGeolocation("location");
+	            date.setBookingfee("21");
+	            date.setCustRepresentative("Manoj Pandey");
+	            date.setComments("Comments");
+	            date.setUser1Rating(rs.getString("totalAvg"));
+	            date.setUser2Rating(rs.getString("totalAvg"));
+	            dates.add(date);
+			}
+        } catch (Exception e) {
+			System.out.println(e);
+		}
 
         return dates;
     }
