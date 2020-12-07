@@ -45,7 +45,7 @@ public class GetHighlyRatedProfilesController extends HttpServlet {
 
         ProfileDao dao = new ProfileDao();
         List<Profile> mostRated = dao.getHighestRatedProfile();
-        request.setAttribute("Highly Rated Profile", dao);
+        request.setAttribute("profiles", mostRated);
          
         RequestDispatcher rd = request.getRequestDispatcher("showHighlyRatedProfile.jsp");
         rd.forward(request, response);
