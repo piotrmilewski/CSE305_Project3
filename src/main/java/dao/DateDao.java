@@ -381,23 +381,24 @@ public class DateDao {
 
         List<Date> dates = new ArrayList<Date>();
 
-        /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
+        /*Sample data begins*/       
         /*Sample data ends*/
-
+        try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM SuggestedBy WHERE Profile1 = '" +user+"';");
+			while (rs.next()) {
+				Date date = new Date();
+				date.setCustRepresentative(rs.getString("CustRep"));
+	            date.setUser1ID(rs.getString("Profile1"));
+	            date.setUser2ID(rs.getString("Profile2"));
+	            date.setDate(rs.getString("Date_Time"));
+	            dates.add(date);
+			}
+        } catch (Exception e) {
+			System.out.println(e);
+		}
         return dates;
     }
 
