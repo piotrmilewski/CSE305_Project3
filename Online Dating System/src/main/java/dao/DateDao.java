@@ -85,6 +85,8 @@ public class DateDao {
         List<Date> dates = new ArrayList<Date>();
 
         String[] tokens = customerName.split(" ");
+        if (tokens.length < 2)
+			return dates;
 		String firstName = tokens[0];
 		String lastName = tokens[1];
         
@@ -322,6 +324,8 @@ public class DateDao {
         List<Date> dates = new ArrayList<Date>();
 
         String[] tokens = customerName.split(" ");
+        if (tokens.length < 2)
+			return dates;
 		String firstName = tokens[0];
 		String lastName = tokens[1];
         

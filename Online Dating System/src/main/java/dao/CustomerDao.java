@@ -230,6 +230,8 @@ public class CustomerDao {
 		List<Customer> customers = new ArrayList<Customer>();
 		
 		String[] tokens = primary.split(" ");
+		if (tokens.length < 2)
+			return customers;
 		String firstName = tokens[0];
 		String lastName = tokens[1];
 
