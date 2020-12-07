@@ -4,6 +4,8 @@ import dao.CustomerDao;
 import dao.DateDao;
 import dao.ProfileDao;
 import model.Customer;
+import model.Date;
+import model.Profile;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,10 +43,11 @@ public class GetPopularGeoLocationController extends HttpServlet {
 
 //		String searchKeyword = request.getParameter("customerName");
 
-    	DateDao dao = new DateDao();
-		String result = dao.getMostPopularLocation();
 
-        request.setAttribute("Most Popular Location",result);
+    	DateDao dao = new DateDao();
+    	List<Date> popular = dao.getMostPopularLocation();
+
+        request.setAttribute("locations",popular);
 
         RequestDispatcher rd = request.getRequestDispatcher("showMostPopularLocation.jsp");
         rd.forward(request, response);
