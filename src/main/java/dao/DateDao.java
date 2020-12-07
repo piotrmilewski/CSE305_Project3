@@ -367,22 +367,26 @@ public class DateDao {
     }
 
 
-    public String getMostPopularLocation() {
-    	Date date = new Date();
+    public List<Date> getMostPopularLocation() {
+    	 List<Date> dates = new ArrayList<>();
     	try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
 			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery("SELECT Location" + 
-					" FROM Date GROUP BY Location ORDER BY COUNT(*) DESC LIMIT 1;");
+			String test = "SELECT Location, Count(Location) FROM Date GROUP BY Location ORDER BY COUNT(*) DESC LIMIT 1;";
+			System.out.println("TEST " + test);
+			ResultSet rs = st.executeQuery(test);
 			while (rs.next()) {
+				Date date = new Date();
 	            date.setGeolocation(rs.getString("Location"));
+	            date.setRate(rs.getInt("Count(Location)"));
+	            dates.add(date);
 			}
 		}
         catch (Exception e) {
 			System.out.println(e);
 		}
-        return date.getGeolocation();
+        return dates;
     }
 
 
