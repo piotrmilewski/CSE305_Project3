@@ -1,7 +1,13 @@
 package dao;
 
+import model.Customer;
+import model.Likes;
 import model.Profile;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +23,29 @@ public class LikesDao {
 
 		/*Sample data begins*/
 		List<String> favs = new ArrayList<>();
-		for (int i = 0; i < 10; i++)
-			favs.add("user123");
-
+//		for (int i = 0; i < 10; i++)
+//			favs.add("user123");
 		/*Sample data ends*/
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * from likes WHERE Liker = '" + mw + "' ORDER BY Date_Time DESC;");
+			
+			while (rs.next()) {
+				String fav = rs.getString("Likee");
+				favs.add(fav);
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		/*
+		 * The students code to fetch data from the database will be written here
+		 * Each record is required to be encapsulated as a "Customer" class object and added to the "customers" List
+		 */
 
 		return favs;
 	}
