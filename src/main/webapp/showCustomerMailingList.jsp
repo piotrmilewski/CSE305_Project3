@@ -33,34 +33,18 @@
 		<table class="table table-striped">
 		  <thead>
 		    <tr>
-		      <th>Customer ID</th>
 		      <th>First Name</th>
 		      <th>Last Name</th>
-		      <th>Address</th>
-		      <th>City</th>
-		      <th>State</th>
-		      <th>Zip Code</th>
-			  <th>Telephone</th>
 			  <th>Email</th>
-			  <th>Credit Card</th>
-			  <th>Rating</th>
 
 		    </tr>
 		  </thead>
 		  <tbody>
 		     <c:forEach items="${customers}" var="cd">
 		       <tr>
-		         <td>${cd.userID}</td>
 		         <td>${cd.firstName}</td>
 		         <td>${cd.lastName}</td>
-		         <td>${cd.address}</td>
-		         <td>${cd.city}</td>
-		         <td>${cd.state}</td>
-		         <td>${cd.zipCode}</td>
-		         <td>${cd.telephone}</td>
 		         <td>${cd.email}</td>
-		         <td>${cd.creditCard}</td>
-		         <td>${cd.rating}</td>
 		       </tr>
 		     </c:forEach>
 		  </tbody>

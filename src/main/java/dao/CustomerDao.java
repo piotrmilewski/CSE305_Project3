@@ -73,27 +73,35 @@ public class CustomerDao {
 		 * The students code to fetch data from the database will be written here
 		 * Each customer record is required to be encapsulated as a "Customer" class object and added to the "customers" List
 		 */
-
-		
 		List<Customer> customers = new ArrayList<Customer>();
 		
 		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setUserID("111-11-1111");
-			customer.setAddress("123 Success Street");
-			customer.setLastName("Lu");
-			customer.setFirstName("Shiyong");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setEmail("shiyong@cs.sunysb.edu");
-			customer.setZipCode(11790);
-			customers.add(customer);			
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT DISTINCT p.FirstName, p.LastName, p.Email "
+					+ "FROM person p, profile pr "
+					+ "WHERE pr.OwnerSSN = p.SSN "
+					+ "ORDER BY LastName;");
+			if (rs.first() == false)
+				return customers;
+			
+			while (rs.next()) {
+				Customer customer = new Customer();
+				customer.setFirstName(rs.getString("FirstName"));
+				customer.setLastName(rs.getString("LastName"));
+				customer.setEmail(rs.getString("Email"));
+				customers.add(customer);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 		/*Sample data ends*/
 		
 		return customers;
 	}
+	
 
 	public Customer getCustomer(String customerID) {
 
