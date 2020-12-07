@@ -29,13 +29,13 @@ public class GetCommentThisDateController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		String dateID = request.getParameter("dateID");
+		String user1ID = request.getParameter("user1ID");
+		String user2ID = request.getParameter("user2ID");
+		String date = request.getParameter("date");
 		String comment = request.getParameter("comment");
 
-		System.out.println("Date = "+dateID+" comment = "+comment);
-
 		DateDao dao = new DateDao();
-		String result = dao.commentDate(dateID, comment);
+		String result = dao.commentDate(user1ID, user2ID, date, comment);
 
 		request.setAttribute("result", result);
 		RequestDispatcher rd = request.getRequestDispatcher("confirmMessage.jsp");

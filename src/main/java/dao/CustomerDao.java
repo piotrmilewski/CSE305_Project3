@@ -21,7 +21,6 @@ public class CustomerDao {
 		/*
 		 * This method fetches one or more customers and returns it as an ArrayList
 		 */
-		
 		List<Customer> customers = new ArrayList<Customer>();
 
 		try {

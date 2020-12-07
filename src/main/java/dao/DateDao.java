@@ -1,6 +1,7 @@
 package dao;
 
 import model.Date;
+import model.Employee;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -193,20 +194,29 @@ public class DateDao {
         List<Date> dates = new ArrayList<Date>();
 
         /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
+        try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT *" + 
+					" FROM Date;");
+			while (rs.next()) {
+				Date date = new Date();
+	            date.setUser1ID(rs.getString("Profile1"));
+	            date.setUser2ID(rs.getString("Profile2"));
+	            date.setDate(rs.getString("Date_Time"));
+	            date.setGeolocation(rs.getString("Location"));
+	            date.setBookingfee(rs.getString("BookingFee"));
+	            date.setCustRepresentative(rs.getString("CustRep"));
+	            date.setComments(rs.getString("Comments"));
+	            date.setUser1Rating(rs.getString("User1Rating"));
+	            date.setUser2Rating(rs.getString("User2Rating"));
+	            dates.add(date);
+			}
+		}
+        catch (Exception e) {
+			System.out.println(e);
+		}
         /*Sample data ends*/
 
         return dates;
@@ -220,8 +230,27 @@ public class DateDao {
         return "Date - " + dateID + " is now cancelled";
     }
 
-    public String commentDate(String dateID, String comment) {
-        return "Date - " + dateID + " has new comment - " + comment;
+    public String commentDate(String user1ID, String user2ID, String date, String comment) {
+    	try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			int result1 = st.executeUpdate("UPDATE Date" + 
+					" SET Comments = '" + comment + "'" +
+					" WHERE Profile1 = '" + user1ID + "'" +
+					" AND Profile2 = '" + user2ID + "'" +
+					" AND Date_Time = '" + date + "';");
+			if (result1 > 0) {
+	            System.out.println("success");
+	        }
+			else {
+	            System.out.println("stuck somewhere");
+	        }
+		} 
+    	catch (Exception e) {
+			System.out.println(e);
+		}
+        return "Date between " + user1ID + " and " + user2ID + " has new comment - " + comment;
     }
 
     public String getSalesReport(String month, String year) {

@@ -52,6 +52,9 @@
 					 <form method="POST" action="commentThisDate">
 						 <div class="form-group">
 							 <input type="hidden" class="form-control" name="dateID" value=${cd.dateID}>
+							 <input type="hidden" class="form-control" name="user1ID" value=${cd.user1ID}>
+							 <input type="hidden" class="form-control" name="user2ID" value=${cd.user2ID}>
+							 <input type="hidden" class="form-control" name="date" value=${cd.date}>
 						 </div>
 						 <input type="text" id="comment" name="comment" value=${cd.comments}><br/>
 						 <input type="submit" value="Comment" class="btn btn-success"/>
