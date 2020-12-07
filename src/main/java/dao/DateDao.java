@@ -231,6 +231,8 @@ public class DateDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
 			Statement st = con.createStatement();
+			String test = "DELETE FROM Date WHERE Profile1 = '" + user1ID + "'" + " AND Profile2 = '" + user2ID + "'" + " AND Date_Time = '" + date + "';";
+			System.out.println("CANCEL TEST: " + test);
 			int result1 = st.executeUpdate("DELETE FROM Date WHERE Profile1 = '" + user1ID + "'" + " AND Profile2 = '" + user2ID + "'" + " AND Date_Time = '" + date + "';");
 			if (result1 > 0) {
 	            System.out.println("success");
@@ -250,11 +252,18 @@ public class DateDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
 			Statement st = con.createStatement();
+			String test = "UPDATE Date" + 
+					" SET Comments = '" + comment + "'" +
+					" WHERE Profile1 = '" + user1ID + "'" +
+					" AND Profile2 = '" + user2ID + "'" +
+					" AND Date_Time = '" + date + "';";
+			System.out.println("COMMENT: " + test);
 			int result1 = st.executeUpdate("UPDATE Date" + 
 					" SET Comments = '" + comment + "'" +
 					" WHERE Profile1 = '" + user1ID + "'" +
 					" AND Profile2 = '" + user2ID + "'" +
 					" AND Date_Time = '" + date + "';");
+			
 			if (result1 > 0) {
 	            System.out.println("success");
 	        }
