@@ -31,7 +31,7 @@
 	<form action="addCustomer" method="POST">
 		<div class="form-group">
 			<label for="customerSSN">SSN</label>
-			<input type="email" class="form-control" id="customerSSN" name="customerSSN" placeholder="Enter SSN" required>
+			<input type="text" class="form-control" id="customerSSN" name="customerSSN" placeholder="Enter SSN" required>
 		</div>
 	  <div class="form-group">
 	    <label for="customerEmail">Email address</label>
@@ -71,12 +71,12 @@
 	  </div>
    	  <div class="form-group">
 	    <label for="customerAcc">Account Number</label>
-	    <input type="text" class="form-control" id="customerAcc" name="customerAcc" placeholder="XXX-XX-XXXX" required>
+	    <input type="text" class="form-control" id="customerAcc" name="customerAcc" placeholder="XXXXX" required>
 	  </div>
 
 		<div class="form-group">
 	    <label for="customerAccCreate">Account Creation Date</label>
-	    <input type="date" class="form-control" id="customerAccCreate" name="customerAccCreate" required>
+	    <input type="text" class="form-control" id="customerAccCreate" name="customerAccCreate" required>
 	  </div>
 
 		<div class="form-group">
@@ -87,9 +87,9 @@
 		<div class="form-group">
 			<label for="ppp">Profile Placement Priority</label>
 			<select name="ppp" id="ppp">
-				<option value="volvo">Super</option>
-				<option value="saab">Good</option>
-				<option value="opel">User</option>
+				<option value="Super-User">Super</option>
+				<option value="Good-User">Good</option>
+				<option value="User-User">User</option>
 			</select>
 		</div>
 
@@ -100,7 +100,7 @@
 
 		<div class="form-group">
 			<label for="customerLastActive">Last Active</label>
-			<input type="date" class="form-control" id="customerLastActive" name="customerLastActive" required>
+			<input type="text" class="form-control" id="customerLastActive" name="customerLastActive" required>
 		</div>
 	  
 	  <button type="submit" class="btn btn-primary">Submit</button>

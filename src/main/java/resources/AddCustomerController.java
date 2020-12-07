@@ -54,11 +54,16 @@ public class AddCustomerController extends HttpServlet {
 		String telephone = request.getParameter("customerTelephone");
 		String ssn = request.getParameter("customerSSN");
 		String creditCard = request.getParameter("customerCreditCard");
+		String ppp = request.getParameter("ppp");
 		int rating = Integer.parseInt(request.getParameter("customerRating"));
+		int accNumber = Integer.parseInt(request.getParameter("customerAcc"));
+		String customerAccCreate = request.getParameter("customerAccCreate");
+		String customerLastActive = request.getParameter("customerLastActive");
 		
 		Customer customer = new Customer();
+		customer.setPassword(password);
 		customer.setEmail(email);
-		customer.setUserSSN("111-11-1111");
+		customer.setUserSSN(ssn);
 		customer.setFirstName(firstName);
 		customer.setLastName(lastName);
 		customer.setAddress(address);
@@ -68,7 +73,11 @@ public class AddCustomerController extends HttpServlet {
 		customer.setTelephone(telephone);
 		customer.setUserID(ssn);
 		customer.setCreditCard(creditCard);
+		customer.setPpp(ppp);
 		customer.setRating(rating);
+		customer.setAccNum(accNumber);
+		customer.setAccCreateDate(customerAccCreate);
+		customer.setDateLastActive(customerLastActive);
 		
 		CustomerDao customerDao = new CustomerDao();
 		String result = customerDao.addCustomer(customer);

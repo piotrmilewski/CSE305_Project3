@@ -17,13 +17,22 @@ public class Customer {
     private int zipCode;
     private String telephone;
     private String email;
-    private String accNum;
+    private int accNum;
     private String accCreateDate;
     private String ppp;
     private String dateLastActive;
     private String creditCard;
     private int rating;
-
+    private String password;
+    
+    public String getPassword() {
+    	return password;
+    }
+    
+    public void setPassword(String password) {
+    	this.password = password;
+    }
+    
     public String getFirstName() {
         return firstName;
     }
@@ -111,11 +120,11 @@ public class Customer {
                 + "<br/>Telephone=" + telephone + "<br/>Email=" + email + "<br/>Credit Card=" + creditCard + "<br/>Rating=" + rating;
     }
 
-    public String getAccNum() {
+    public int getAccNum() {
         return accNum;
     }
 
-    public void setAccNum(String accNum) {
+    public void setAccNum(int accNum) {
         this.accNum = accNum;
     }
 

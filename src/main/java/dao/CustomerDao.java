@@ -45,7 +45,7 @@ public class CustomerDao {
 				customer.setZipCode(rs.getInt("ZipCode"));
 				customer.setTelephone(rs.getString("Telephone"));
 				customer.setEmail(rs.getString("Email"));
-				customer.setAccNum(rs.getString("AcctNum"));
+				customer.setAccNum(rs.getInt("AcctNum"));
 				customer.setAccCreateDate(rs.getString("AcctCreationDate"));
 				customer.setCreditCard(rs.getString("CardNumber"));
 				customer.setPpp(rs.getString("PPP"));
@@ -160,10 +160,48 @@ public class CustomerDao {
 		 */
 		
 		/*Sample data begins*/
+		try 
+		{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			int result1 = st.executeUpdate("INSERT INTO Person VALUES('" + 
+					customer.getUserSSN() + "', '" + 
+					customer.getPassword() + "', '" + 
+					customer.getFirstName() + "', '" + 
+					customer.getLastName() + "', '" + 
+					customer.getAddress() + "', '" + 
+					customer.getCity() + "', '" + 
+					customer.getState() + "', " + 
+					customer.getZipCode() + ", '" + 
+					customer.getEmail() + "', '" + 
+					customer.getTelephone() + "');");
+			if (result1 != 1)
+				return "failure";
+			int result2 = st.executeUpdate("INSERT INTO User VALUES('" + 
+					customer.getUserSSN() + "', '" + 
+					customer.getPpp() + "', '" + 
+					customer.getRating() + "', '" + 
+					customer.getDateLastActive() + "');");
+			if (result2 != 1)
+				return "failure";
+			int result3 = st.executeUpdate("INSERT INTO Account VALUES('" + 
+					customer.getUserSSN() + "', '" + 
+					customer.getCreditCard() + "', '" + 
+					customer.getAccNum() + "', '" + 
+					customer.getAccCreateDate() + "');");
+			System.out.println("Attempted to insert values in person and user table");
+			if (result3 != 1) {
+				return "failure";
+			}
+		} 
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		
 		return "success";
-		/*Sample data ends*/
-
 	}
+
 
 	public String editCustomer(Customer customer) {
 		/*
@@ -332,7 +370,7 @@ public class CustomerDao {
 			customer.setZipCode(11790);
 			customer.setTelephone("5166328959");
 			customer.setEmail("shiyong@cs.sunysb.edu");
-			customer.setAccNum("12345");
+			customer.setAccNum(12345);
 			customer.setAccCreateDate("12-12-2020");
 			customer.setCreditCard("1234567812345678");
 			customer.setPpp("User");
