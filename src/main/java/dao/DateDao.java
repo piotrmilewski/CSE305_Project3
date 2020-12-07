@@ -324,26 +324,36 @@ public class DateDao {
     }
 
     public List<Date> getPastDates(String user) {
-
         List<Date> dates = new ArrayList<Date>();
-
         /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
         /*Sample data ends*/
-
+        try 
+    	{
+	    	Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			
+			String statement = "SELECT * from Date WHERE Profile1 = '" + user + "' AND Date_Time < NOW() ORDER BY Date_Time DESC;";
+			ResultSet rs = st.executeQuery(statement);
+			System.out.println(statement);
+			while (rs.next()) {
+				Date date = new Date();
+				date.setUser1ID(rs.getString("Profile1"));
+	            date.setUser2ID(rs.getString("Profile2"));
+	            date.setDate(rs.getString("Date_Time"));
+	            date.setGeolocation(rs.getString("Location"));
+	            date.setBookingfee(rs.getString("BookingFee"));
+	            date.setCustRepresentative(rs.getString("CustRep"));
+	            date.setComments(rs.getString("Comments"));
+	            date.setUser1Rating(rs.getString("User1Rating"));
+	            date.setUser2Rating(rs.getString("User2Rating"));
+	            dates.add(date);
+			}
+		} 
+    	catch (Exception e) 
+    	{
+			System.out.println(e);
+		}
         return dates;
     }
 
