@@ -53,13 +53,14 @@ public class ProfileDao {
  			Class.forName("com.mysql.cj.jdbc.Driver");
  			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
  			Statement st = con.createStatement();
- 			ResultSet rs = st.executeQuery("SELECT ProfileID, Rating" + 
- 					" FROM Profile P" + 
- 					" (SELECT SSN, Rating FROM User) As ratings WHERE (ratings.SSN = P.OwnerSSN) ORDER BY rating DESC;");
+ 			String test = "SELECT ProfileID, Rating FROM Profile P, (SELECT SSN, Rating FROM User) As ratings WHERE (ratings.SSN = P.OwnerSSN) ORDER BY rating DESC;";
+ 			System.out.println("TESTTTT: " + test);
+ 			ResultSet rs = st.executeQuery(test);
  			while (rs.next())
  			{
  				Profile profile = new Profile();
  				profile.setProfileID(rs.getString("ProfileID"));
+ 				profile.setRate(rs.getInt("Rating"));
  				profiles.add(profile);
  			}
  		} 
