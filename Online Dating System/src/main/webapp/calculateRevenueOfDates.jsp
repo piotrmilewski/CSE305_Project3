@@ -31,7 +31,7 @@
 	    					<div class="container">
 								<form method="POST" action="calcRevenueDatesByCalendar">
 									<label>Date: </label><br/>
-									<input type="date" id="calendar_date" name="calendar_date">
+									<input type="date" id="calendar_date" name="calendar_date" placeholder="YYYY-MM-DD">
 									<br/>
 									<input type="submit" value="Search" class="btn btn-primary btn-bet"/>
 								</form>

@@ -31,7 +31,7 @@
 	    					<div class="container">
 								<form method="POST" action="searchDatesByCalendar">
 									<label for="movieName">Date: </label><br/>
-									<input type="date" id="calendar_date" name="calendar_date">
+									<input type="date" id="calendar_date" name="calendar_date" placeholder="YYYY-MM-DD">
 									<input type="submit" value="Search" class="btn btn-primary btn-bet"/>
 								</form>
 							</div>
