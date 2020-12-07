@@ -35,8 +35,8 @@
 			<tbody>
 			<c:forEach items="${locations}" var="cd">
 				<tr>
-					<td>${cd}</td>
-					<td>${rate}</td>
+					<td>'${cd.geolocation}'</td>
+					<td>'${cd.rate}'</td>
 				</tr>
 			</c:forEach>
 			</tbody>
