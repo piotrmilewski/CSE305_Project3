@@ -11,7 +11,7 @@ public class Date {
 	private String comments;
 	private String user1Rating;
 	private String user2Rating;
-
+	private int rate;
 
 	public String getDateID() {
 		return dateID;
@@ -91,5 +91,13 @@ public class Date {
 
 	public void setUser2Rating(String user2Rating) {
 		this.user2Rating = user2Rating;
+	}
+
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
 	}
 }
