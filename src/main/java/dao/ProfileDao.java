@@ -19,22 +19,28 @@ public class ProfileDao {
 
         /*Sample data begins*/
         List<Profile> profiles = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Profile profile = new Profile();
-            profile.setProfileID("123");
-            profile.setProfileName("Profile1");
-            profile.setAge("23");
-            profile.setAddress("address 11");
-            profile.setGender("Male");
-            profile.setPhy_char("Tall");
-            profile.setInterests("Guitar");
-            profile.setPhoto("Path to Photo");
-            profile.setGeoRange("25");
-            profile.setAgeRange("25 to 51");
-            profiles.add(profile);
-        }
+       
         /*Sample data ends*/
-
+        try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM Profile;");
+			while (rs.next()) {
+				Profile profile = new Profile();
+	            profile.setProfileID(rs.getString("OwnderSSN"));
+	            profile.setProfileName(rs.getString("ProfileID"));
+	            profile.setAge(rs.getString("Age"));
+	            profile.setGender(rs.getString("M_F"));
+	            profile.setInterests(rs.getString("Hobbies"));
+	            profile.setGeoRange(rs.getString("DatingGeoRange"));
+	            profile.setAgeRange(rs.getString("DatingAgeRangeStart") + " to " + rs.getString("DatingAgeRangeEnd"));
+	            profiles.add(profile);
+			}
+		} 
+   	 	catch (Exception e){
+			System.out.println(e);
+   	 	}
         return profiles;
     }
 
@@ -65,47 +71,58 @@ public class ProfileDao {
     }
     
     public List<Profile> getProfilesByAge(String age) {
-
         /*Sample data begins*/
         List<Profile> profiles = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Profile profile = new Profile();
-            profile.setProfileID("123");
-            profile.setProfileName("Profile1");
-            profile.setAge("23");
-            profile.setAddress("address 11");
-            profile.setGender("Male");
-            profile.setPhy_char("Tall");
-            profile.setInterests("Guitar");
-            profile.setPhoto("Path to Photo");
-            profile.setGeoRange("25");
-            profile.setAgeRange("25 to 51");
-            profiles.add(profile);
-        }
         /*Sample data ends*/
+       
+        try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM Profile WHERE Age = " + Integer.parseInt(age) + ";");
+			while (rs.next()) {
+				Profile profile = new Profile();
+	            profile.setProfileID(rs.getString("OwnderSSN"));
+	            profile.setProfileName(rs.getString("ProfileID"));
+	            profile.setAge(rs.getString("Age"));
+	            profile.setGender(rs.getString("M_F"));
+	            profile.setInterests(rs.getString("Hobbies"));
+	            profile.setGeoRange(rs.getString("DatingGeoRange"));
+	            profile.setAgeRange(rs.getString("DatingAgeRangeStart") + " to " + rs.getString("DatingAgeRangeEnd"));
+	            profiles.add(profile);
+			}
+		} 
+   	 	catch (Exception e){
+			System.out.println(e);
+   	 	}
 
         return profiles;
     }
 
     public List<Profile> getProfilesByWeight(String weight) {
-
         /*Sample data begins*/
         List<Profile> profiles = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Profile profile = new Profile();
-            profile.setProfileID("123");
-            profile.setProfileName("Profile1");
-            profile.setAge("23");
-            profile.setAddress("address 11");
-            profile.setGender("Male");
-            profile.setPhy_char("Tall");
-            profile.setInterests("Guitar");
-            profile.setPhoto("Path to Photo");
-            profile.setGeoRange("25");
-            profile.setAgeRange("25 to 51");
-            profiles.add(profile);
-        }
         /*Sample data ends*/
+        try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM Profile WHERE Weight = " + Integer.parseInt(weight) + ";");
+			while (rs.next()) {
+				Profile profile = new Profile();
+	            profile.setProfileID(rs.getString("OwnderSSN"));
+	            profile.setProfileName(rs.getString("ProfileID"));
+	            profile.setAge(rs.getString("Age"));
+	            profile.setGender(rs.getString("M_F"));
+	            profile.setInterests(rs.getString("Hobbies"));
+	            profile.setGeoRange(rs.getString("DatingGeoRange"));
+	            profile.setAgeRange(rs.getString("DatingAgeRangeStart") + " to " + rs.getString("DatingAgeRangeEnd"));
+	            profiles.add(profile);
+			}
+		} 
+   	 	catch (Exception e){
+			System.out.println(e);
+   	 	}
 
         return profiles;
     }
@@ -114,22 +131,28 @@ public class ProfileDao {
 
         /*Sample data begins*/
         List<Profile> profiles = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Profile profile = new Profile();
-            profile.setProfileID("123");
-            profile.setProfileName("Profile1");
-            profile.setAge("23");
-            profile.setAddress("address 11");
-            profile.setGender("Male");
-            profile.setPhy_char("Tall");
-            profile.setInterests("Guitar");
-            profile.setPhoto("Path to Photo");
-            profile.setGeoRange("25");
-            profile.setAgeRange("25 to 51");
-            profiles.add(profile);
-        }
+        
         /*Sample data ends*/
-
+        try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM Profile WHERE Height = " + Integer.parseInt(height) + ";");
+			while (rs.next()) {
+				Profile profile = new Profile();
+	            profile.setProfileID(rs.getString("OwnderSSN"));
+	            profile.setProfileName(rs.getString("ProfileID"));
+	            profile.setAge(rs.getString("Age"));
+	            profile.setGender(rs.getString("M_F"));
+	            profile.setInterests(rs.getString("Hobbies"));
+	            profile.setGeoRange(rs.getString("DatingGeoRange"));
+	            profile.setAgeRange(rs.getString("DatingAgeRangeStart") + " to " + rs.getString("DatingAgeRangeEnd"));
+	            profiles.add(profile);
+			}
+		} 
+   	 	catch (Exception e){
+			System.out.println(e);
+   	 	}
         return profiles;
     }
 
@@ -137,22 +160,28 @@ public class ProfileDao {
 
         /*Sample data begins*/
         List<Profile> profiles = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Profile profile = new Profile();
-            profile.setProfileID("123");
-            profile.setProfileName("Profile1");
-            profile.setAge("23");
-            profile.setAddress("address 11");
-            profile.setGender("Male");
-            profile.setPhy_char("Tall");
-            profile.setInterests("Guitar");
-            profile.setPhoto("Path to Photo");
-            profile.setGeoRange("25");
-            profile.setAgeRange("25 to 51");
-            profiles.add(profile);
-        }
+       
         /*Sample data ends*/
-
+        try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM Profile WHERE HairColor = '" + hairColor + "';");
+			while (rs.next()) {
+				Profile profile = new Profile();
+	            profile.setProfileID(rs.getString("OwnderSSN"));
+	            profile.setProfileName(rs.getString("ProfileID"));
+	            profile.setAge(rs.getString("Age"));
+	            profile.setGender(rs.getString("M_F"));
+	            profile.setInterests(rs.getString("Hobbies"));
+	            profile.setGeoRange(rs.getString("DatingGeoRange"));
+	            profile.setAgeRange(rs.getString("DatingAgeRangeStart") + " to " + rs.getString("DatingAgeRangeEnd"));
+	            profiles.add(profile);
+			}
+		} 
+   	 	catch (Exception e){
+			System.out.println(e);
+   	 	}
         return profiles;
     }
 

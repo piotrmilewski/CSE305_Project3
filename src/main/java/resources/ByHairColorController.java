@@ -31,13 +31,13 @@ public class ByHairColorController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-//		String age = request.getParameter("age");
+		String hair = request.getParameter("HairColor");
 
 		ProfileDao dao = new ProfileDao();
-		List<Profile> profiles = dao.getProfilesByHairColor("Black");
+		List<Profile> profiles = dao.getProfilesByHairColor(hair);
 
 		request.setAttribute("profiles", profiles);
-		request.setAttribute("hairColor", "black");
+		request.setAttribute("hairColor", hair);
 		RequestDispatcher rd = request.getRequestDispatcher("showByHairColor.jsp");
 		rd.forward(request, response);
 
