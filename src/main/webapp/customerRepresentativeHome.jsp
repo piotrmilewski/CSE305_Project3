@@ -66,7 +66,7 @@
 							<form action="addCustomer.jsp">
 								<input type="submit" value="Add Customer" class="btn btn-primary"/>
 							</form>
-							<form action="modifyCustomers" class="pt-1">
+							<form action="modifyCustomers1.jsp" class="pt-1">
 								<input type="submit" value="View / Edit / Delete Customer" class="btn btn-primary"/>
 							</form>
 							<!-- <form action="searchCustomer.jsp" class="pt-1">
@@ -95,6 +95,8 @@
 					    <h5 class="card-title">View Date Suggestions for Customers</h5>
     					<div class="container">
 							<form action="getCustomerList">
+								<label for="userID">Input ProfileID to view Date Suggestions:</label>
+								<input type="text" class="form-control" id="profileUserID" name="profileUserID" placeholder="Enter Profile UserID" required>
 								<input type="submit" value="View Date Suggestions" class="btn btn-success"/>
 							</form>
 						</div>

@@ -360,36 +360,33 @@ public class CustomerDao {
 		 */
 
 		List<Customer> customers = new ArrayList<Customer>();
-
 		/*
 		 * The students code to fetch data from the database will be written here
 		 * Each record is required to be encapsulated as a "Customer" class object and added to the "customers" List
 		 */
-
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setUserID("111-11-1111");
-			customer.setFirstName("long");
-			customer.setLastName("Lu");
-			customer.setAddress("123 Success Street12");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setZipCode(11790);
-			customer.setTelephone("5166328959");
-			customer.setEmail("shiyong@cs.sunysb.edu");
-			customer.setAccNum(12345);
-			customer.setAccCreateDate("12-12-2020");
-			customer.setCreditCard("1234567812345678");
-			customer.setPpp("User");
-			customer.setRating(1);
-			customer.setDateLastActive("12-12-2020");
-			customers.add(customer);
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT distinct u.SSN, u.PPP, u.Rating, u.DateOfLastAct"
+					+ " FROM sys.date d, sys.profile p, sys.user u"
+					+ " WHERE p.profileID = '" + userID + "' and p.profileID != d.profile1 and d.user1rating >= 3 and d.user2rating >= 3 and p.OwnerSSN = u.SSN;");
+		
+			while (rs.next()) {
+				Customer customer = new Customer();
+				customer.setUserSSN(rs.getString("SSN"));
+				customer.setPpp(rs.getString("PPP"));
+				customer.setRating(rs.getInt("Rating"));
+				customer.setDateLastActive(rs.getString("DateOfLastAct"));
+				customers.add(customer);
+			}
+		} 
+		catch (Exception e) {
+			System.out.println(e);
 		}
-		/*Sample data ends*/
-
 		return customers;
 	}
+	
 	
 	public List<String> getMaxRevenueCustomer() {
 		

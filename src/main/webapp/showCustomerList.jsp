@@ -33,18 +33,10 @@
 		<table class="table table-striped">
 		  <thead>
 		    <tr>
-		      <th>Customer ID</th>
 		      <th>SSN</th>
-		      <th>First Name</th>
-		      <th>Last Name</th>
-		      <th>Address</th>
-		      <th>City</th>
-		      <th>State</th>
-		      <th>Zip Code</th>
-			  <th>Telephone</th>
-			  <th>Email</th>
-			  <th>Credit Card</th>
-			  <th>Rating</th>
+		      <th>PPP</th>
+		      <th>Rating</th>
+		      <th>DateOfLastAct</th>
 				<th></th>
 
 		    </tr>
@@ -52,24 +44,16 @@
 		  <tbody>
 		     <c:forEach items="${customers}" var="cd">
 		       <tr>
-		         <td>${cd.userID}</td>
 		         <td>${cd.userSSN}</td>
-		         <td>${cd.firstName}</td>
-		         <td>${cd.lastName}</td>
-		         <td>${cd.address}</td>
-		         <td>${cd.city}</td>
-		         <td>${cd.state}</td>
-		         <td>${cd.zipCode}</td>
-		         <td>${cd.telephone}</td>
-		         <td>${cd.email}</td>
-		         <td>${cd.creditCard}</td>
+		         <td>${cd.ppp}</td>
 		         <td>${cd.rating}</td>
+		         <td>${cd.dateLastActive}</td>
 				   <td>
 					   <form method="POST" action="getDateSuggestions">
 						   <div class="form-group">
 							   <input type="hidden" class="form-control" name="userID" value=${cd.userID}>
 						   </div>
-						   <input type="submit" value="Suggestions" class="btn btn-success"/>
+						   <!--<input type="submit" value="Suggestions" class="btn btn-success"/>-->
 					   </form>
 				   </td>
 			   </tr>
