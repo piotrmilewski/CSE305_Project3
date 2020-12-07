@@ -12,6 +12,7 @@ public class Profile {
 	private String photo;
 	private String geoRange;
 	private String ageRange;
+	private int rate;
 
 	public String getProfileID() {
 		return profileID;
@@ -91,5 +92,13 @@ public class Profile {
 
 	public void setGeoRange(String geoRange) {
 		this.geoRange = geoRange;
+	}
+
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
 	}
 }
