@@ -16,6 +16,23 @@ public class LikesDao {
 	 * This class handles all the database operations related to the customer table
 	 */
 	public String setNewLike(String user1, String user2){
+		try 
+		{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			
+			String statement = "INSERT INTO Likes VALUES('" + user1 + "', '" + user2 + "', NOW();";
+			
+			System.out.println(statement);
+			int result = st.executeUpdate(statement);
+			if (result != 1)
+				return "failure";
+		}	
+		catch (Exception e) 
+		{
+			System.out.println(e);
+		}
 		return "User - "+user1+" likes "+user2;
 	}
 
