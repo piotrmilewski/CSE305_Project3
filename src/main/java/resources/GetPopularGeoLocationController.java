@@ -41,12 +41,10 @@ public class GetPopularGeoLocationController extends HttpServlet {
 
 //		String searchKeyword = request.getParameter("customerName");
 
-        List<String> popular = new ArrayList<>();
-        for(int i=0;i<10;i++)
-            popular.add("London");
+    	DateDao dao = new DateDao();
+		String result = dao.getMostPopularLocation();
 
-        request.setAttribute("locations",popular);
-        request.setAttribute("rate","212");
+        request.setAttribute("Most Popular Location",result);
 
         RequestDispatcher rd = request.getRequestDispatcher("showMostPopularLocation.jsp");
         rd.forward(request, response);

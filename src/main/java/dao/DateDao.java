@@ -337,8 +337,22 @@ public class DateDao {
     }
 
 
-    public String getMostPopularLocation(String user) {
-        return "Jersey City";
+    public String getMostPopularLocation() {
+    	Date date = new Date();
+    	try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT Location" + 
+					" FROM Date GROUP BY Location ORDER BY COUNT(*) DESC LIMIT 1;");
+			while (rs.next()) {
+	            date.setGeolocation(rs.getString("Location"));
+			}
+		}
+        catch (Exception e) {
+			System.out.println(e);
+		}
+        return date.getGeolocation();
     }
 
 
