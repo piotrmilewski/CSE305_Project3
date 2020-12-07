@@ -226,8 +226,23 @@ public class DateDao {
         return "Successfull date b/w " + user1 + " and " + user2;
     }
 
-    public String cancelDate(String dateID) {
-        return "Date - " + dateID + " is now cancelled";
+    public String cancelDate(String user1ID, String user2ID, String date, String comment) {
+    	try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+			Statement st = con.createStatement();
+			int result1 = st.executeUpdate("DELETE FROM Date WHERE Profile1 = '" + user1ID + "'" + " AND Profile2 = '" + user2ID + "'" + " AND Date_Time = '" + date + "';");
+			if (result1 > 0) {
+	            System.out.println("success");
+	        }
+			else {
+	            System.out.println("stuck somewhere");
+	        }
+		}  
+    	catch (Exception e) {
+			System.out.println(e);
+		}
+        return "Date between " + user1ID + " and " + user2ID + " is now cancelled";
     }
 
     public String commentDate(String user1ID, String user2ID, String date, String comment) {

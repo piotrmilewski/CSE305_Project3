@@ -3,6 +3,10 @@ package dao;
 import model.Customer;
 import model.Profile;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +38,32 @@ public class ProfileDao {
         return profiles;
     }
 
+    public List<Profile> getHighestRatedProfile()
+    {
+    	 List<Profile> profiles = new ArrayList<>();
+    	 
+    	 try 
+    	 {
+ 			Class.forName("com.mysql.cj.jdbc.Driver");
+ 			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sys", "admin", "password");
+ 			Statement st = con.createStatement();
+ 			ResultSet rs = st.executeQuery("SELECT ProfileID, Rating" + 
+ 					" FROM Profile P" + 
+ 					" (SELECT SSN, Rating FROM User) As ratings WHERE (ratings.SSN = P.OwnerSSN) ORDER BY rating DESC;");
+ 			while (rs.next())
+ 			{
+ 				Profile profile = new Profile();
+ 				profile.setProfileID(rs.getString("ProfileID"));
+ 				profiles.add(profile);
+ 			}
+ 		} 
+    	 catch (Exception e)
+    	 {
+ 			System.out.println(e);
+ 		 }
+    	 return profiles;
+    }
+    
     public List<Profile> getProfilesByAge(String age) {
 
         /*Sample data begins*/

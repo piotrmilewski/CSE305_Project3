@@ -31,15 +31,17 @@ public class GetCancelThisDateController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		String dateID = request.getParameter("dateID");
+		String user1ID = request.getParameter("user1ID");
+		String user2ID = request.getParameter("user2ID");
+		String date = request.getParameter("date");
+		String comment = request.getParameter("comment");
 
 		DateDao dao = new DateDao();
-		String result = dao.cancelDate(dateID);
+		String result = dao.cancelDate(user1ID, user2ID, date, comment);
 
 		request.setAttribute("result", result);
 		RequestDispatcher rd = request.getRequestDispatcher("confirmMessage.jsp");
 		rd.forward(request, response);
-
 	}
 
 	/**

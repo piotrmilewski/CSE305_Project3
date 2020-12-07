@@ -32,6 +32,7 @@ public class GetCancelDateController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
+		
 		DateDao dao = new DateDao();
 
 		List<Date> dates = dao.getOpenDates();
